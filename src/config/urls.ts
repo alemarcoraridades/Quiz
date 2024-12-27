@@ -10,10 +10,10 @@ export const getBaseUrl = (): string => {
 
 export const getQuizShareUrl = (quizId: string): string => {
   const baseUrl = getBaseUrl();
-  return `${baseUrl}${APP_CONFIG.ROUTES.QUIZ}/${quizId}`;
+  return `${baseUrl}/#/${APP_CONFIG.ROUTES.QUIZ}/${quizId}`;
 };
 
 export const getQuizPreviewUrl = (quizId: string): string => {
   const baseUrl = getBaseUrl();
-  return `${baseUrl}${APP_CONFIG.ROUTES.QUIZ}/${quizId}${APP_CONFIG.ROUTES.PREVIEW}`;
+  return `${baseUrl}/#/${APP_CONFIG.ROUTES.QUIZ}/${quizId}${APP_CONFIG.ROUTES.PREVIEW}`;
 };
