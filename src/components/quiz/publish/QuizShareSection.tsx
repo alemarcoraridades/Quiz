@@ -13,7 +13,8 @@ export const QuizShareSection: React.FC<QuizShareSectionProps> = ({ quiz }) => {
   }
 
   const shareUrl = getQuizShareUrl(quiz.id);
-
+  console.log("Generated Share URL:", shareUrl); // Valide o link no console
+  
   return (
     <div className="mb-4 p-3 bg-gray-50 rounded-md">
       <p className="text-sm font-medium text-gray-700 mb-1">Share URL:</p>
