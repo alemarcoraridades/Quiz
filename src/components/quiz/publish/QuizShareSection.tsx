@@ -7,12 +7,15 @@ interface QuizShareSectionProps {
   quiz: Quiz;
 }
 
+
+
 export const QuizShareSection: React.FC<QuizShareSectionProps> = ({ quiz }) => {
   if (quiz.publishStatus !== 'published') {
     return null;
   }
 
   const shareUrl = getQuizShareUrl(quiz.id);
+  console.log("Generated Share URL:", shareUrl); // Valide o link no console
 
   return (
     <div className="mb-4 p-3 bg-gray-50 rounded-md">
