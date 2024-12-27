@@ -5,7 +5,7 @@ export const getBaseUrl = (): string => {
   if (ENV.IS_DEV) {
     return window.location.origin;
   }
-  return `${window.location.origin}/${APP_CONFIG.REPO_NAME}`;
+  return `${window.location.origin}/#/${APP_CONFIG.REPO_NAME}`;
 };
 
 export const getQuizShareUrl = (quizId: string): string => {
