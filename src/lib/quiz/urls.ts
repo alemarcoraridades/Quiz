@@ -1,11 +1,17 @@
-import { getBaseUrl } from './config';
+export const getBaseUrl = (): string => {
+  // When deployed to GitHub Pages, we need to include the repo name
+  const isGitHubPages = window.location.hostname.includes('github.io');
+  return isGitHubPages ? '/Quiz' : '';
+};
 
 export const getQuizShareUrl = (quizId: string): string => {
-  const baseUrl = getBaseUrl();
+  const baseUrl = window.location.origin + getBaseUrl();
+  // Add # before /quiz for HashRouter
   return `${baseUrl}/#/quiz/${quizId}`;
 };
 
 export const getQuizPreviewUrl = (quizId: string): string => {
-  const baseUrl = getBaseUrl();
+  const baseUrl = window.location.origin + getBaseUrl();
+  // Add # before /quiz for HashRouter
   return `${baseUrl}/#/quiz/${quizId}/preview`;
 };
