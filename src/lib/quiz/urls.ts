@@ -6,12 +6,12 @@ export const getBaseUrl = (): string => {
 
 export const getQuizShareUrl = (quizId: string): string => {
   const baseUrl = window.location.origin + getBaseUrl();
-  // Ensure the hash is present for HashRouter
+  // Always include the hash for HashRouter navigation
   return `${baseUrl}/#/quiz/${quizId}`;
 };
 
 export const getQuizPreviewUrl = (quizId: string): string => {
   const baseUrl = window.location.origin + getBaseUrl();
-  // Ensure the hash is present for HashRouter
+  // Always include the hash for HashRouter navigation
   return `${baseUrl}/#/quiz/${quizId}/preview`;
 };
