@@ -8,20 +8,25 @@ interface BooleanResponseProps {
 export const BooleanResponse: React.FC<BooleanResponseProps> = ({
   value,
   onChange,
-}) => (
-  <div className="flex justify-center space-x-6">
-    {['Yes', 'No'].map((option) => (
+}) => {
+  return (
+    <div className="flex gap-2">
       <button
-        key={option}
-        onClick={() => onChange(option === 'Yes')}
-        className={`px-8 py-3 rounded-lg font-medium transition-all ${
-          value === (option === 'Yes')
-            ? 'bg-blue-600 text-white ring-2 ring-blue-600 ring-offset-2'
-            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+        onClick={() => onChange(true)} // Call onChange when the user selects "true"
+        className={`p-2 border rounded-md ${
+          value === true ? 'bg-blue-100 border-blue-500' : 'hover:bg-gray-100'
         }`}
       >
-        {option}
+        True
       </button>
-    ))}
-  </div>
-);
+      <button
+        onClick={() => onChange(false)} // Call onChange when the user selects "false"
+        className={`p-2 border rounded-md ${
+          value === false ? 'bg-blue-100 border-blue-500' : 'hover:bg-gray-100'
+        }`}
+      >
+        False
+      </button>
+    </div>
+  );
+};

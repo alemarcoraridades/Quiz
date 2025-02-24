@@ -16,20 +16,30 @@ export const QuestionOptions: React.FC<QuestionOptionsProps> = ({
   answer,
   onAnswer,
 }) => {
+  // Debugging: Log the question and answer
+  console.log("QuestionOptions - Question:", question);
+  console.log("QuestionOptions - Answer:", answer);
+
+  const handleAnswer = (value: string | number | boolean) => {
+    console.log("QuestionOptions - Answer selected:", value); // Debugging
+    console.log("onAnswer is a function:", typeof onAnswer === 'function'); // Debugging
+    onAnswer(value);
+  };
+
   switch (question.type) {
     case 'multiple-choice':
       return (
         <MultipleChoice
           options={question.options || []}
           selectedOption={answer as string}
-          onChange={onAnswer}
+          onChange={handleAnswer}
         />
       );
     case 'text':
       return (
         <TextResponse
           value={answer as string}
-          onChange={onAnswer}
+          onChange={handleAnswer}
           validations={question.validations}
         />
       );
@@ -37,14 +47,14 @@ export const QuestionOptions: React.FC<QuestionOptionsProps> = ({
       return (
         <RatingResponse
           value={answer as number}
-          onChange={onAnswer}
+          onChange={handleAnswer}
         />
       );
     case 'boolean':
       return (
         <BooleanResponse
           value={answer as boolean}
-          onChange={onAnswer}
+          onChange={handleAnswer}
         />
       );
     default:

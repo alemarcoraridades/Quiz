@@ -139,6 +139,49 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
             </div>
           )}
 
+    {question.type === 'text' && (
+            <input
+              type="text"
+              placeholder="Text Answer"
+              className="w-full px-3 py-2 border rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              disabled
+            />
+          )}
+
+          {question.type === 'rating' && (
+            <div className="flex items-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span key={star} className="text-2xl">
+                  ⭐
+                </span>
+              ))}
+            </div>
+          )}
+
+          {question.type === 'boolean' && (
+            <div className="flex items-center gap-2">
+              <label>
+                <input
+                  type="radio"
+                  name={`boolean-${question.id}`}
+                  value="true"
+                  className="mr-2"
+                />
+                True
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name={`boolean-${question.id}`}
+                  value="false"
+                  className="mr-2"
+                />
+                False
+              </label>
+            </div>
+          )}
+
+
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2">
               <input

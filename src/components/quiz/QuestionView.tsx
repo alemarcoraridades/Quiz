@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Question } from '@/types/quiz';
 import { ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -27,8 +27,16 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
   onPrevious,
   isLastQuestion,
 }) => {
+  const [touched, setTouched] = useState(false);
   const isRequired = question.required && !allowSkip;
   const isAnswered = answer !== undefined;
+
+  const handleChange = (value: string | number | boolean) => {
+  console.log("QuestionView - Answer selected:", value); // Debugging
+  console.log("onAnswer is a function:", typeof onAnswer === 'function'); // Debugging
+    setTouched(true);
+    onAnswer(value);
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
@@ -37,7 +45,7 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
           <span className="text-sm font-medium text-gray-500">
             Question {questionIndex + 1} of {totalQuestions}
           </span>
-          {isRequired && (
+          {isRequired && touched && !isAnswered && (
             <span className="inline-flex items-center text-sm font-medium text-red-600">
               <AlertCircle className="w-4 h-4 mr-1" />
               Required
@@ -55,7 +63,7 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
       <QuestionOptions
         question={question}
         answer={answer}
-        onAnswer={onAnswer}
+        onAnswer={handleChange}
       />
 
       <div className="flex justify-between items-center mt-8">

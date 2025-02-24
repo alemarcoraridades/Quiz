@@ -14,29 +14,34 @@ export const useQuizResponses = () => {
   const [answers, setAnswers] = useState<Record<string, string | number | boolean>>({});
 
   const setAnswer = (questionId: string, value: string | number | boolean) => {
-    setAnswers(prev => ({
+    console.log("useQuizResponses - Setting answer:", questionId, value); // Debugging    
+    console.log("Answers state:", answers); // Debugging
+  setAnswers(prev => ({
       ...prev,
       [questionId]: value
     }));
   };
 
   const clearResponses = () => {
+    console.log("useQuizResponses - Clearing responses"); // Debugging
     setAnswers({});
   };
 
-  const getResponseStats = (): ResponseStats => {
+  const getResponseStats = (totalQuestions: number): ResponseStats => {
     const responses = Object.values(answers);
     const ratingResponses = responses.filter(r => typeof r === 'number') as number[];
+    const textResponses = responses.filter(r => typeof r === 'string' && !r.startsWith('choice:')); // Example logic
+    const multipleChoiceResponses = responses.filter(r => typeof r === 'string' && r.startsWith('choice:')); // Example logic
     
     return {
-      totalQuestions: 0, // This will be set by the quiz component
+      totalQuestions,
       answeredQuestions: responses.length,
-      completionRate: 0, // This will be calculated by the quiz component
+      completionRate: (responses.length / totalQuestions) * 100,
       averageRating: ratingResponses.length > 0 
         ? ratingResponses.reduce((a, b) => a + b, 0) / ratingResponses.length 
         : undefined,
-      textResponseCount: responses.filter(r => typeof r === 'string').length,
-      multipleChoiceCount: responses.filter(r => typeof r === 'string').length,
+      textResponseCount: textResponses.length,
+      multipleChoiceCount: multipleChoiceResponses.length,
       booleanCount: responses.filter(r => typeof r === 'boolean').length
     };
   };

@@ -46,6 +46,11 @@ export const QuizResults: React.FC<QuizResultsProps> = ({
     (answeredQuestions.length / quiz.questions.length) * 100
   );
 
+  // Determine the recommended product based on answers
+  const recommendedProduct = quiz.settings.finalResultScreen.productMapping.find(
+    (mapping) => answers[mapping.questionId] === mapping.answer
+  )?.product;
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -54,10 +59,31 @@ export const QuizResults: React.FC<QuizResultsProps> = ({
         </div>
         <h2 className="text-3xl font-bold mb-2">Quiz Complete!</h2>
         <p className="text-lg text-gray-600">
-          You answered {answeredQuestions.length} out of {quiz.questions.length} questions
+          {quiz.settings.finalResultScreen.message}
         </p>
       </div>
 
+      {/* Product Recommendation Section */}
+      {recommendedProduct && (
+        <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+          <h3 className="text-xl font-semibold mb-4">Recommended Product</h3>
+          <img
+            src={recommendedProduct.imageUrl}
+            alt="Recommended Product"
+            className="w-48 h-48 mx-auto mb-4 rounded-lg"
+          />
+          <a
+            href={recommendedProduct.checkoutLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Get Your Product Now
+          </a>
+        </div>
+      )}
+
+      {/* Existing Responses Section */}
       <div className="bg-white rounded-xl shadow-lg p-8">
         <h3 className="text-xl font-semibold mb-6">Your Responses</h3>
         <div className="space-y-6">
@@ -93,6 +119,7 @@ export const QuizResults: React.FC<QuizResultsProps> = ({
         </div>
       </div>
 
+      {/* Buttons */}
       <div className="flex justify-center gap-4">
         <Button
           variant="outline"

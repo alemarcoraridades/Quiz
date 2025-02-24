@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Settings, Palette, Save, Eye } from 'lucide-react';
 import {
   DndContext,
@@ -22,6 +22,7 @@ import { QuestionEditor } from './QuestionEditor';
 import { QuizSettings } from './settings/QuizSettings';
 import { ThemeSettings } from './settings/ThemeSettings';
 import { QuizPreview } from './QuizPreview';
+import { ProductMappingEditor } from './ProductMappingEditor'; // Add this import
 
 interface QuizEditorProps {
   quiz?: Quiz;
@@ -44,6 +45,10 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, onSave }) => {
         showProgressBar: true,
         allowSkip: false,
         shuffleQuestions: false,
+        finalResultScreen: {
+          message: '', // Default final result message
+          productMapping: [], // Default empty product mappings
+        },
       },
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -62,6 +67,11 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, onSave }) => {
     })
   );
 
+  // Debugging: Log currentQuiz state whenever it changes
+  useEffect(() => {
+    console.log('Current Quiz State:', currentQuiz);
+  }, [currentQuiz]);
+
   const addQuestion = () => {
     const newQuestion: Question = {
       id: generateId(),
@@ -75,6 +85,48 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, onSave }) => {
       ...prev,
       questions: [...prev.questions, newQuestion],
     }));
+  };
+
+  const handleAddProductMapping = () => {
+   console.log('Adding product mapping...'); // Debugging log
+    setCurrentQuiz((prev) => {
+      const newProductMapping = [
+        ...prev.settings.finalResultScreen.productMapping,
+        { questionId: '', answer: '', product: { imageUrl: '', checkoutLink: '', finalmessage: '' } },
+      ];
+      console.log('New product mapping:', newProductMapping); // Debugging log
+      return {
+        ...prev,
+        settings: {
+          ...prev.settings,
+          finalResultScreen: {
+            ...prev.settings.finalResultScreen,
+            productMapping: newProductMapping,
+          },
+        },
+      };
+    });
+  };
+
+  const handleProductMappingChange = (index: number, field: string, value: any) => {
+    setCurrentQuiz((prev) => {
+      const updatedMappings = [...prev.settings.finalResultScreen.productMapping];
+      if (field === 'product') {
+        updatedMappings[index].product = { ...updatedMappings[index].product, ...value };
+      } else {
+        updatedMappings[index] = { ...updatedMappings[index], [field]: value };
+      }
+      return {
+        ...prev,
+        settings: {
+          ...prev.settings,
+          finalResultScreen: {
+            ...prev.settings.finalResultScreen,
+            productMapping: updatedMappings,
+          },
+        },
+      };
+    });
   };
 
   const handleQuestionChange = (questionId: string, updatedQuestion: Question) => {
@@ -157,41 +209,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, onSave }) => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">
-          {currentQuiz.title || 'New Quiz'}
-        </h2>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="secondary"
-            onClick={() => setShowPreview(true)}
-            className="flex items-center gap-2"
-          >
-            <Eye className="w-4 h-4" />
-            Preview
-          </Button>
-          <Button onClick={handleSave} className="flex items-center gap-2">
-            <Save className="w-4 h-4" />
-            Save Quiz
-          </Button>
-        </div>
-      </div>
-
-      {errors.length > 0 && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4">
-          <div className="flex">
-            <div className="flex-1">
-              <p className="text-sm text-red-700">Please fix the following:</p>
-              <ul className="mt-2 text-sm text-red-700 list-disc list-inside">
-                {errors.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* Quiz Title and Description */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <input
           type="text"
@@ -212,6 +230,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, onSave }) => {
         />
       </div>
 
+      {/* Quiz Questions */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -237,11 +256,30 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, onSave }) => {
         </SortableContext>
       </DndContext>
 
+{currentQuiz.settings.finalResultScreen.productMapping.length > 0 && (
+  <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h2 className="text-2xl font-bold text-gray-900 mb-4">Product Mappings</h2>
+    <ProductMappingEditor
+      productMappings={currentQuiz.settings.finalResultScreen.productMapping}
+      questions={currentQuiz.questions} // Pass questions here
+      onChange={handleProductMappingChange}
+    />
+  </div>
+)}
+
+
+      {/* Buttons for Adding Questions and Product Mappings */}
       <div className="flex items-center gap-4">
         <Button onClick={addQuestion} className="flex items-center gap-2">
           <Plus className="w-4 h-4" />
           Add Question
         </Button>
+
+        <Button onClick={handleAddProductMapping} className="flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Add Product Mapping
+        </Button>
+
         <Button
           variant="secondary"
           className="flex items-center gap-2"
@@ -260,6 +298,39 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, onSave }) => {
         </Button>
       </div>
 
+      {/* Save and Preview Buttons */}
+      <div className="flex justify-end gap-2">
+        <Button
+          variant="secondary"
+          onClick={() => setShowPreview(true)}
+          className="flex items-center gap-2"
+        >
+          <Eye className="w-4 h-4" />
+          Preview
+        </Button>
+        <Button onClick={handleSave} className="flex items-center gap-2">
+          <Save className="w-4 h-4" />
+          Save Quiz
+        </Button>
+      </div>
+
+      {/* Error Display */}
+      {errors.length > 0 && (
+        <div className="bg-red-50 border-l-4 border-red-500 p-4">
+          <div className="flex">
+            <div className="flex-1">
+              <p className="text-sm text-red-700">Please fix the following:</p>
+              <ul className="mt-2 text-sm text-red-700 list-disc list-inside">
+                {errors.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modals for Settings, Theme, and Preview */}
       {showSettings && (
         <QuizSettings
           settings={currentQuiz.settings}

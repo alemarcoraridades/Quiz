@@ -26,6 +26,7 @@ export const QuizList: React.FC<QuizListProps> = ({
 }) => {
   const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
   const [showPublishModal, setShowPublishModal] = useState(false);
+  console.log("Quizzes recebidos no QuizList:", quizzes);
 
   const handlePublish = (settings: { expiresAt?: string; accessCode?: string }) => {
     if (selectedQuiz) {

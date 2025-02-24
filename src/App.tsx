@@ -1,19 +1,34 @@
-import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { HashRouter as Router, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { QuizList } from './components/quiz/QuizList';
 import { QuizEditor } from './components/quiz/QuizEditor';
+import { QuizViewer } from './components/quiz/QuizViewer';
 import { Quiz, PublishSettings } from './types/quiz';
 
 // Separate the main app logic from the router to use hooks
 function AppContent() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+
+useEffect(() => {
+  const storedQuizzes = JSON.parse(localStorage.getItem("quizzes") || "[]");
+  console.log("Quizzes carregados do localStorage:", storedQuizzes);
+  setQuizzes(storedQuizzes);
+}, []);
+
+useEffect(() => {
+  console.log("Quizzes salvos no localStorage:", quizzes);
+  localStorage.setItem("quizzes", JSON.stringify(quizzes));
+}, [quizzes]);
+
   const navigate = useNavigate();
 
   const handleCreateNew = () => {
+    console.log('Redirecionando para criar novo quiz...');
     navigate('/editor');
   };
 
   const handleEdit = (quiz: Quiz) => {
+    console.log('Redirecionando para editar o quiz com ID:', quiz);
     navigate(`/editor/${quiz.id}`);
   };
 
@@ -22,13 +37,23 @@ function AppContent() {
   };
 
   const handleSave = (quiz: Quiz) => {
+    console.log("Quiz recebido para salvar:", quiz);
     if (quizzes.find(q => q.id === quiz.id)) {
-      setQuizzes((prev) =>
+        //Atualiza o quiz existente e mantem seu publishStatus
+        setQuizzes((prev) =>
         prev.map((q) => (q.id === quiz.id ? quiz : q))
-      );
+        );
+        console.log("Quiz atualizado:", quiz);
     } else {
-      setQuizzes((prev) => [...prev, { ...quiz, publishStatus: 'draft' }]);
+      //Adiciona um novo quiz com o publishStatus 'draft' 
+      const newQuiz = { ...quiz, publishStatus: 'draft' };
+      setQuizzes((prev) => [...prev, newQuiz]);
+      console.log("Novo quiz adicionado:", newQuiz);
     }
+    // Verifica o estado atualizado de quizzes
+    console.log("Estado final de quizzes:", quizzes);
+
+    // Navega para a pagina principal
     navigate('/');
   };
 
@@ -62,6 +87,8 @@ function AppContent() {
     );
   };
 
+
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200">
@@ -94,8 +121,19 @@ function AppContent() {
           <Route 
             path="/editor/:quizId?" 
             element={
-              <QuizEditor onSave={handleSave} />
+                <QuizEditorWrapper
+                quizzes={quizzes}
+                onSave={handleSave}
+              />
             } 
+          />
+          <Route 
+            path="/quiz/:id/preview" 
+            element={<QuizViewer quizzes={quizzes} mode="preview" />} 
+          />
+          <Route 
+            path="/quiz/:id" 
+            element={<QuizViewer quizzes={quizzes} />} 
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -111,6 +149,14 @@ function App() {
       <AppContent />
     </Router>
   );
+}
+
+// Wrapper component for QuizEditor to handle quizId parameter
+function QuizEditorWrapper({ quizzes, onSave }: { quizzes: Quiz[]; onSave: (quiz: Quiz) => void }) {
+  const { quizId } = useParams(); // Get the quizId from the URL
+  const quizToEdit = quizId ? quizzes.find((quiz) => quiz.id === quizId) : undefined;
+
+  return <QuizEditor quiz={quizToEdit} onSave={onSave} />;
 }
 
 export default App;

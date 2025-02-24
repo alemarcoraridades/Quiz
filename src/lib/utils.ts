@@ -1,18 +1,6 @@
-import { nanoid } from 'nanoid';
-import { Quiz } from '@/types/quiz';
-
-export function generateQuizId(): string {
-  // Generate a shorter, URL-safe ID using nanoid
-  return nanoid(10);
+export function cn(...classes: (string | boolean | undefined | null | { [key: string]: boolean })[]): string {
+return classes.filter(Boolean).join(' ');
 }
-
-export function createNewQuiz(partial: Partial<Quiz>): Quiz {
-  return {
-    id: generateQuizId(),
-    title: '',
-    description: '',
-    questions: [],
-    publishStatus: 'draft',
-    ...partial
-  };
+export function generateId(): string {
+  return Math.random().toString(36).substring(2, 15);
 }
