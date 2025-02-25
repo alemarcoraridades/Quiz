@@ -1,23 +1,28 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-export default defineConfig({
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+export default defineConfig(({ mode }) => {
+  // load environment variables based on the mode (development/production)
+  const env = loadEnv(mode, process.cwd(), '');
+
+  // set the base path dynamically
+  const base = env.VITE_BASE_PATH || '/quiz/';
+
+  return {
+    plugins : [react()],
+    base,
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
     },
-  },
-  base: '/Quiz/',
-  server: {
-    port: 3000,
-    open: true
-  },
-  preview: {
-    port: 3000
-  }
+    server: {
+      port: 3000,
+      open: true,
+    },
+    preview: {
+      port: 3000,
+    },
+  };
 });
