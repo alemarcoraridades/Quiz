@@ -7,7 +7,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   // set the base path dynamically
-  const base = env.VITE_BASE_PATH || '/quiz/';
+  let base = '/';
+  if (mode === 'production') {
+    // For Github pages deployment
+    base = '/Quiz/';
+  }
 
   return {
     plugins : [react()],
@@ -24,5 +28,15 @@ export default defineConfig(({ mode }) => {
     preview: {
       port: 3000,
     },
+    build: {
+     // Ensure proper MINE types for JavaScript modules
+     rollupOptions: {
+       output: {
+         entryFileNames: 'assets/[name].[hash].js',
+         chunkFileNames: 'assets/[name].[hash].js',
+         assetFileNames: 'assets/[name].[hash].[ext]'
+       }
+     }
+   }
   };
 });
