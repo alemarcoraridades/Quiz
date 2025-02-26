@@ -3,19 +3,15 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig(({ mode }) => {
-  // load environment variables based on the mode (development/production)
+  // Load environment variables based on the mode (development/production)
   const env = loadEnv(mode, process.cwd(), '');
 
-  // set the base path dynamically
-  let base = '/';
-  if (mode === 'production') {
-    // For Github pages deployment
-    base = '/Quiz/';
-  }
+  // Set the base path dynamically
+  const base = env.VITE_BASE_PATH || '/quiz/';
 
   return {
-    plugins : [react()],
-    base,
+    plugins: [react()],
+    base, // Dynamically set base path
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
@@ -28,15 +24,5 @@ export default defineConfig(({ mode }) => {
     preview: {
       port: 3000,
     },
-    build: {
-     // Ensure proper MINE types for JavaScript modules
-     rollupOptions: {
-       output: {
-         entryFileNames: 'assets/[name].[hash].js',
-         chunkFileNames: 'assets/[name].[hash].js',
-         assetFileNames: 'assets/[name].[hash].[ext]'
-       }
-     }
-   }
   };
 });
