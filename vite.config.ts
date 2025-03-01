@@ -7,8 +7,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   // Set the base path dynamically
-  const base = env.VITE_BASE_PATH || '/quiz/';
-
+  //const base = env.VITE_BASE_PATH || '/quiz/';
+  const base = '/Quiz/';
   return {
     plugins: [react()],
     base, // Dynamically set base path
