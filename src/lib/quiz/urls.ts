@@ -11,9 +11,9 @@ export const getBaseUrl = (): string => {
     return '';
   }
   
-  if (window.location.hostname === 'sonhocarroantigo.com.br') {
-    return '';
-  }
+ // if (window.location.hostname === 'sonhocarroantigo.com.br') {
+ //   return '';
+ // }
   
   if (window.location.hostname.includes('github.io')) {
     return getGitHubPagesBase();
@@ -31,9 +31,9 @@ export const getQuizShareUrl = (quizId: string): string => {
   }
   
   // For production with custom domain
-  if (hostname === 'sonhocarroantigo.com.br') {
-    return `https://sonhocarroantigo.com.br/#/quiz/${quizId}`;
-  }
+  //if (hostname === 'sonhocarroantigo.com.br') {
+ //   return `https://sonhocarroantigo.com.br/#/quiz/${quizId}`;
+//  }
   
   // For GitHub Pages
   if (hostname.includes('github.io')) {
@@ -53,9 +53,9 @@ export const getQuizPreviewUrl = (quizId: string): string => {
   }
   
   // For production with custom domain
-  if (hostname === 'sonhocarroantigo.com.br') {
-    return `https://sonhocarroantigo.com.br/#/quiz/${quizId}/preview`;
-  }
+//  if (hostname === 'sonhocarroantigo.com.br') {
+//    return `https://sonhocarroantigo.com.br/#/quiz/${quizId}/preview`;
+//  }
   
   // For GitHub Pages
   if (hostname.includes('github.io')) {
