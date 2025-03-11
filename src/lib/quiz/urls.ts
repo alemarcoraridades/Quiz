@@ -30,10 +30,10 @@ export const getQuizShareUrl = (quizId: string): string => {
     return `${window.location.origin}/#/quiz/${quizId}`;
   }
   
-  // For production with custom domain
-  //if (hostname === 'sonhocarroantigo.com.br') {
- //   return `https://sonhocarroantigo.com.br/#/quiz/${quizId}`;
-//  }
+  For production with custom domain
+  if (hostname === 'sonhocarroantigo.com.br') {
+     return `https://sonhocarroantigo.com.br/#/quiz/${quizId}`;
+  }
   
   // For GitHub Pages
   if (hostname.includes('github.io')) {
