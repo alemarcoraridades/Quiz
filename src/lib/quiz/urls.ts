@@ -6,62 +6,39 @@ const isDev = () => {
   return import.meta.env.DEV || window.location.hostname === 'localhost';
 };
 
-export const getBaseUrl = (): string => {
+// Helper function to check if a path is a quiz URL
+const isQuizUrl = (path: string): boolean => {
+  return path.startsWith('/#/quiz/');
+};
+
+// Function to get the base URL based on the current path
+export const getBaseUrl = (path: string = window.location.pathname): string => {
   if (isDev()) {
-    return '';
+    return ''; // No base URL for development
   }
-  
- // if (window.location.hostname === 'sonhocarroantigo.com.br') {
- //   return '';
- // }
-  
+
+  // For quiz URLs, use the custom domain
+  if (isQuizUrl(path)) {
+    return 'https://sonhocarroantigo.com.br';
+  }
+
+  // For GitHub Pages, use the GitHub Pages URL
   if (window.location.hostname.includes('github.io')) {
     return getGitHubPagesBase();
   }
-  
+
+  // Fallback to current origin
   return '';
 };
 
+// Function to generate the shareable quiz URL
 export const getQuizShareUrl = (quizId: string): string => {
-  const hostname = window.location.hostname;
-  
-  // For development or preview
-  if (isDev()) {
-    return `${window.location.origin}/#/quiz/${quizId}`;
-  }
-  
-  For production with custom domain
-  if (hostname === 'sonhocarroantigo.com.br') {
-     return `https://sonhocarroantigo.com.br/#/quiz/${quizId}`;
-  }
-  
-  // For GitHub Pages
-  if (hostname.includes('github.io')) {
-    return `${window.location.origin}${getGitHubPagesBase()}/#/quiz/${quizId}`;
-  }
-  
-  // Fallback to current origin
-  return `${window.location.origin}/#/quiz/${quizId}`;
+  const baseUrl = getBaseUrl(`/#/quiz/${quizId}`);
+  return `${baseUrl}/#/quiz/${quizId}`;
 };
 
+// Function to generate the quiz preview URL
 export const getQuizPreviewUrl = (quizId: string): string => {
-  const hostname = window.location.hostname;
-  
-  // For development or preview
-  if (isDev()) {
-    return `${window.location.origin}/#/quiz/${quizId}/preview`;
-  }
-  
-  // For production with custom domain
-//  if (hostname === 'sonhocarroantigo.com.br') {
-//    return `https://sonhocarroantigo.com.br/#/quiz/${quizId}/preview`;
-//  }
-  
-  // For GitHub Pages
-  if (hostname.includes('github.io')) {
-    return `${window.location.origin}${getGitHubPagesBase()}/#/quiz/${quizId}/preview`;
-  }
-  
-  // Fallback to current origin
-  return `${window.location.origin}/#/quiz/${quizId}/preview`;
+  const baseUrl = getBaseUrl(`/#/quiz/${quizId}/preview`);
+  return `${baseUrl}/#/quiz/${quizId}/preview`;
 };
