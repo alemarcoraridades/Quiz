@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <title>Quiz App</title>
     <script type="text/javascript">
-      // Redirect all unknown routes to the root of the app
-      // This allows client-side routing to handle the request
-      const basePath = window.location.hostname.includes('github.io') ? '/Quiz' : '';
+      // Redirect to the root of the app while preserving the hash
+      const basePath = '/Quiz'; // Base path for GitHub Pages
       const redirectPath = `${basePath}/index.html${window.location.hash}`;
       window.location.replace(redirectPath);
     </script>
