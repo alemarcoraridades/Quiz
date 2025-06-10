@@ -37,3 +37,12 @@ dist-ssr/
 
 # Vite cache
 .vite/
+
+assets/
+dist/
+env
+env.development
+env.production
+node_modules/
+
+

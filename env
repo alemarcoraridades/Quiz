@@ -1,0 +1,3 @@
+NODE_ENV=development
+VITE_REPO_NAME=Quiz
+VITE_BASE_PATH=
