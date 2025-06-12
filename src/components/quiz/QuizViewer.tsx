@@ -7,6 +7,7 @@ import { QuizHeader } from './QuizHeader';
 import { QuestionView } from './QuestionView';
 import { QuizResults } from './QuizResults';
 import { useQuizResponses } from '@/hooks/useQuizResponses';
+import { fetchQuiz } from '@/services/quizApi';
 
 export const QuizViewer: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,27 +15,46 @@ export const QuizViewer: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [questions, setQuestions] = useState<Quiz['questions']>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const { answers, setAnswer, clearResponses } = useQuizResponses();
   const navigate = useNavigate();
 
-  // Load quiz from localStorage
-  useEffect(() => {
-    const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]') as Quiz[];
-    const selectedQuiz = savedQuizzes.find((q) => q.id === id);
+  const loadQuiz = useCallback(async () => {
+  if (!id) {
+    setError('ID do quiz não fornecido');
+    setIsLoading(false);
+    navigate('/quizzes');
+    return;
+  }
+
+  setIsLoading(true);
+  setError(null);
+  
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const shareId = urlParams.get('shareId');
+
+    const quizData = await fetchQuiz(id, shareId || undefined);
+    setQuiz(quizData);
     
-    if (selectedQuiz) {
-      setQuiz(selectedQuiz);
-      // Initialize questions based on shuffle setting
-      const shuffledQuestions = selectedQuiz.settings?.shuffleQuestions
-        ? [...selectedQuiz.questions].sort(() => Math.random() - 0.5)
-        : selectedQuiz.questions;
-      setQuestions(shuffledQuestions);
-    } else {
-      console.error('Quiz não encontrado!');
-      navigate('/quizzes');
-    }
+    const shuffledQuestions = quizData.settings?.shuffleQuestions
+      ? [...quizData.questions].sort(() => Math.random() - 0.5)
+      : quizData.questions;
+    setQuestions(shuffledQuestions);
+  } catch (err) {
+    console.error('Erro ao carregar quiz:', err);
+    setError(err instanceof Error ? err.message : 'Falha ao carregar quiz');
+    navigate('/quizzes');
+  } finally {
+    setIsLoading(false);
+  }
   }, [id, navigate]);
+
+  useEffect(() => {
+    loadQuiz();
+  }, [loadQuiz]);
 
   const handleNext = useCallback(() => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -44,7 +64,6 @@ export const QuizViewer: React.FC = () => {
     }
   }, [currentQuestionIndex, questions.length]);
 
-  // Auto-navigate effect with proper dependencies
   useEffect(() => {
     if (!questions.length) return;
     
@@ -70,18 +89,32 @@ export const QuizViewer: React.FC = () => {
     setShowResults(false);
   };
 
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <p>Carregando quiz...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="text-center p-6 max-w-md">
+          <h2 className="text-xl font-bold text-red-600 mb-2">Erro</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <Button onClick={() => navigate('/quizzes')}>Voltar para Quizzes</Button>
+        </div>
+      </div>
+    );
+  }
+
   if (!quiz || !questions.length) {
-    return <p>Carregando quiz...</p>;
+    return null;
   }
 
   const currentQuestion = questions[currentQuestionIndex];
-  if (!currentQuestion) {
-    return <p>Questão não encontrada</p>;
-  }
-
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-
-  // Filter matching products based on user answers
   const matchingProducts = quiz.settings?.finalResultScreen?.productMapping?.find(
     (mapping) => answers[mapping.questionId] === mapping.answer
   )?.product;
@@ -130,12 +163,17 @@ export const QuizViewer: React.FC = () => {
               </div>
             )}
 
+            <div className="flex justify-center">
+              <Button onClick={handleRestart} variant="outline">
+                Reiniciar Quiz
+              </Button>
+            </div>
           </div>
         ) : (
           <>
             <div className="mb-8">
               <div className="flex justify-between items-center mb-6">
-                <Button className="btn btn-outline" onClick={() => navigate('/quizzes')}>
+                <Button variant="outline" onClick={() => navigate('/quizzes')}>
                   Finalizar Quiz
                 </Button>
               </div>
@@ -168,4 +206,3 @@ export const QuizViewer: React.FC = () => {
     </div>
   );
 };
-
