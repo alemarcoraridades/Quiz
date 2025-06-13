@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prestart": "npm run build",
-    "start"; "node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
