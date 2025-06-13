@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const githubApi = require('./scripts/github-api');
 
 const app = express();
@@ -49,7 +50,17 @@ app.delete('/api/quizzes/:id', async (req, res) => {
   }
 });
 
+// Serve static files from Vite build
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Catch-all to return index.html for SPA routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+// Start server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
