@@ -1,5 +1,8 @@
-require('dotenv').config();
-const { Octokit } = require('@octokit/rest');
+// scripts/github-api.js
+import { Octokit } from '@octokit/rest';
+import fetch from 'node-fetch';
+
+// O dotenv já é carregado no server.js com import 'dotenv/config'
 
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
@@ -11,7 +14,7 @@ const REPO_NAME = 'Quiz';
 const QUIZ_PATH = 'data/quizzes';
 
 // Get all quizzes
-async function getQuizzes() {
+export async function getQuizzes() {
   try {
     const { data } = await octokit.repos.getContent({
       owner: REPO_OWNER,
@@ -19,10 +22,12 @@ async function getQuizzes() {
       path: QUIZ_PATH,
     });
 
-    return Promise.all(data.map(async (file) => {
-      const response = await fetch(file.download_url);
-      return response.json();
-    }));
+    return Promise.all(
+      data.map(async (file) => {
+        const response = await fetch(file.download_url);
+        return response.json();
+      })
+    );
   } catch (error) {
     console.error('Error fetching quizzes:', error);
     throw error;
@@ -30,7 +35,7 @@ async function getQuizzes() {
 }
 
 // Get single quiz by ID
-async function getQuizById(id, shareId = null) {
+export async function getQuizById(id, shareId = null) {
   try {
     const filename = `${shareId || id}.json`;
     const { data } = await octokit.repos.getContent({
@@ -48,7 +53,7 @@ async function getQuizById(id, shareId = null) {
 }
 
 // Create or update quiz
-async function saveQuiz(quiz) {
+export async function saveQuiz(quiz) {
   try {
     const filename = `${quiz.id}.json`;
     const content = Buffer.from(JSON.stringify(quiz, null, 2)).toString('base64');
@@ -62,7 +67,9 @@ async function saveQuiz(quiz) {
         path: `${QUIZ_PATH}/${filename}`,
       });
       sha = data.sha;
-    } catch (e) {} // File doesn't exist
+    } catch {
+      // File doesn't exist
+    }
 
     const { data } = await octokit.repos.createOrUpdateFileContents({
       owner: REPO_OWNER,
@@ -81,7 +88,7 @@ async function saveQuiz(quiz) {
 }
 
 // Delete quiz
-async function deleteQuiz(id) {
+export async function deleteQuiz(id) {
   try {
     const filename = `${id}.json`;
     const { data } = await octokit.repos.getContent({
@@ -105,9 +112,3 @@ async function deleteQuiz(id) {
   }
 }
 
-module.exports = {
-  getQuizzes,
-  getQuizById,
-  saveQuiz,
-  deleteQuiz
-};
