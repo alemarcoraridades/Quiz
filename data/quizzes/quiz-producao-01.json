@@ -1,0 +1,16 @@
+{
+  "id": "quiz-producao-01",
+  "title": "Quiz em produção",
+  "questions": [
+    {
+      "question": "Qual a capital do Brasil?",
+      "options": [
+        "Brasília",
+        "São Paulo",
+        "Salvador"
+      ],
+      "answer": "Brasília"
+    }
+  ],
+  "imageUrl": "https://via.placeholder.com/300"
+}
