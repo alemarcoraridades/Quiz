@@ -1,5 +1,8 @@
 // src/services/quizApi.ts
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+//const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://quiz-production-af1b.up.railway.app/api';
+
+
 
 export const fetchQuizzes = async () => {
   const response = await fetch(`${API_BASE}/quizzes`);
