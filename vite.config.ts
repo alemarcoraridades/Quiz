@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: '/Quiz/',
+    base: '/',
     resolve: {
       alias: { '@': path.resolve(__dirname, './src') }
     },
