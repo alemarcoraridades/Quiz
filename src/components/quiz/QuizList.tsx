@@ -6,7 +6,7 @@ import { PublishQuizModal } from './publish/PublishQuizModal';
 import { QuizStatusBadge } from './publish/QuizStatusBadge';
 import { QuizShareSection } from './publish/QuizShareSection';
 import { QuizActions } from './publish/QuizActions';
-import { fetchQuizzes, publishQuiz } from '@/services/quizApi';
+import { fetchQuizzes as fetchQuizzesFromApi, publishQuiz } from '@/services/quizApi';
 
 
 interface QuizListProps {
@@ -36,7 +36,7 @@ export const QuizList: React.FC<QuizListProps> = ({
   setError(null);
   
   try {
-    const quizData = await fetchQuizzes();
+    const quizData = await fetchQuizzesFromApi();
     setQuizzes(quizData);
   } catch (err) {
     console.error('Error fetching quiz list:', err);
@@ -63,15 +63,6 @@ const handlePublish = async (settings: { expiresAt?: string; accessCode?: string
   useEffect(() => {
     fetchQuizzes();
   }, []);
-
-  const handlePublish = (settings: { expiresAt?: string; accessCode?: string }) => {
-    if (selectedQuiz) {
-      onPublish(selectedQuiz, settings);
-      setShowPublishModal(false);
-      setSelectedQuiz(null);
-      fetchQuizzes(); // Refresh the list after publishing
-    }
-  };
 
   if (loading) {
     return (
