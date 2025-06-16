@@ -4,21 +4,32 @@ import { QuizList } from './components/quiz/QuizList';
 import { QuizEditor } from './components/quiz/QuizEditor';
 import { QuizViewer } from './components/quiz/QuizViewer';
 import { Quiz, PublishSettings } from './types/quiz';
+import { fetchQuizzes } from './services/quizApi';
 
 // Separate the main app logic from the router to use hooks
 function AppContent() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 
-useEffect(() => {
-  const storedQuizzes = JSON.parse(localStorage.getItem("quizzes") || "[]");
-  console.log("Quizzes carregados do localStorage:", storedQuizzes);
-  setQuizzes(storedQuizzes);
-}, []);
+// Recupera quizzes da API no carregamento inicial
+  useEffect(() => {
+    async function loadQuizzes() {
+      try {
+        const apiQuizzes = await fetchQuizzes();
+        console.log("Quizzes carregados da API:", apiQuizzes);
+        setQuizzes(apiQuizzes);
+      } catch (error) {
+        console.error("Erro ao carregar quizzes da API:", error);
+      }
+    }
 
-useEffect(() => {
-  console.log("Quizzes salvos no localStorage:", quizzes);
-  localStorage.setItem("quizzes", JSON.stringify(quizzes));
-}, [quizzes]);
+    loadQuizzes();
+  }, []);
+
+  // Atualiza localStorage toda vez que quizzes mudar
+  useEffect(() => {
+    localStorage.setItem("quizzes", JSON.stringify(quizzes));
+    console.log("Quizzes salvos no localStorage:", quizzes);
+  }, [quizzes]);
 
   const navigate = useNavigate();
 
