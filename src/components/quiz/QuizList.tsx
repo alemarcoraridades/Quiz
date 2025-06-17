@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Quiz } from '@/types/quiz';
@@ -10,6 +10,7 @@ import { fetchQuizzes as fetchQuizzesFromApi, publishQuiz } from '@/services/qui
 
 
 interface QuizListProps {
+  quizzes: Quiz[];
   onCreateNew: () => void;
   onEdit: (quiz: Quiz) => void;
   onDelete: (quizId: string) => void;
@@ -18,78 +19,29 @@ interface QuizListProps {
 }
 
 export const QuizList: React.FC<QuizListProps> = ({
+  quizzes,
   onCreateNew,
   onEdit,
   onDelete,
   onPublish,
   onArchive,
 }) => {
-  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
   const [showPublishModal, setShowPublishModal] = useState(false);
-
-  // Fetch quizzes from GitHub
-  const fetchQuizzes = async () => {
-  setLoading(true);
-  setError(null);
-  
-  try {
-    const quizData = await fetchQuizzesFromApi();
-    setQuizzes(quizData);
-  } catch (err) {
-    console.error('Error fetching quiz list:', err);
-    setError(err instanceof Error ? err.message : 'Failed to load quizzes');
-  } finally {
-    setLoading(false);
-  }
-};
 
 // Update handlePublish to use the API:
 const handlePublish = async (settings: { expiresAt?: string; accessCode?: string }) => {
   if (selectedQuiz) {
     try {
-      await publishQuiz(selectedQuiz, settings);
+      onPublish(selectedQuiz, settings);
       setShowPublishModal(false);
       setSelectedQuiz(null);
-      await fetchQuizzes(); // Refresh the list after publishing
     } catch (error) {
       console.error('Publishing failed:', error);
     }
   }
  };
 
-  useEffect(() => {
-    fetchQuizzes();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-red-50 border-l-4 border-red-500 p-4">
-        <div className="flex">
-          <div className="flex-1">
-            <p className="text-sm text-red-700">{error}</p>
-            <Button
-              onClick={fetchQuizzes}
-              variant="ghost"
-              className="mt-2 text-sm"
-            >
-              Retry
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
