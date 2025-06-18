@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     base: '/',
     define: {
-      'import.meta.env' : env
+      'import.meta.env' : JSON.stringify(env)
       },
     build: {
       outDir: 'docs'
