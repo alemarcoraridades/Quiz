@@ -8,6 +8,12 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     base: '/',
+    define: {
+      'import.meta.env' : env
+      },
+    build: {
+      outDir: 'docs'
+    },
     resolve: {
       alias: { '@': path.resolve(__dirname, './src') }
     },
