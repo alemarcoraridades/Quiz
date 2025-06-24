@@ -77,9 +77,9 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
         </Button>
         <div className="text-sm text-gray-500">
           {isAnswered ? (
-            <span className="text-green-600">✓ Question answered</span>
+            <span className="text-green-600">✓ Questao respondida</span>
           ) : isRequired ? (
-            <span className="text-red-600">* Response required</span>
+            <span className="text-red-600">* Responda a pergunta!</span>
           ) : (
             <span>Resposta opcional</span>
           )}
