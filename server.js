@@ -57,6 +57,20 @@ app.delete('/api/quizzes/:id', async (req, res) => {
   }
 });
 
+// PUT quiz
+
+app.put('/api/quizzes/:id', async (req, res) => {
+  try {
+    const quiz = { ...req.body, id: req.params.id };
+    const result = await githubApi.saveQuiz(quiz);
+    res.json(result);
+  } catch (error) {
+    console.error('Failed to update quiz', error);
+    res.status(500).json({ error: 'Failed to update quiz' });
+  }
+});
+
+
 // Serve static files from Vite build (dist folder)
 app.use(express.static(path.join(__dirname, 'dist')));
 
