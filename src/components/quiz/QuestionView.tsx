@@ -43,7 +43,7 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-gray-500">
-            Resposta {questionIndex + 1} of {totalQuestions}
+            Resposta {questionIndex + 1} de {totalQuestions}
           </span>
           {isRequired && touched && !isAnswered && (
             <span className="inline-flex items-center text-sm font-medium text-red-600">
