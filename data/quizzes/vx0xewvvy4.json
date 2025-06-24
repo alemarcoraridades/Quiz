@@ -82,12 +82,21 @@
             "checkoutLink": "https://pay.kiwify.com.br/klzhB5N",
             "finalmessage": "🔊 Parabéns! O melhor pra você é o Audiobook “Carro Antigo: Realize Seu Sonho Agora”."
           }
+        },
+        {
+          "questionId": "",
+          "answer": "",
+          "product": {
+            "imageUrl": "",
+            "checkoutLink": "",
+            "finalmessage": ""
+          }
         }
       ]
     }
   },
   "createdAt": "2025-06-24T13:43:34.106Z",
-  "updatedAt": "2025-06-24T17:04:09.467Z",
+  "updatedAt": "2025-06-24T17:18:17.772Z",
   "publishStatus": "published",
   "publishedAt": "2025-06-24T13:45:27.414Z"
 }
