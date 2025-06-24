@@ -17,6 +17,21 @@ export const fetchQuiz = async (id: string, shareId?: string) => {
   return response.json();
 };
 
+export const saveQuiz = async (quiz: Quiz) => {
+  const response = await fetch(`${API_BASE}/quizzes/${quiz.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(quiz)
+  });
+
+  if (!response.ok) {
+    throw new Error('Falha ao salvar quiz');
+  }
+
+  return response.json();
+};
+
+
 export const publishQuiz = async (quiz: Quiz, settings: { expiresAt?: string; accessCode?: string }) => {
   const response = await fetch(`${API_BASE}/quizzes/${quiz.id}/publish`, {
     method: 'POST',

@@ -4,7 +4,7 @@ import { QuizList } from './components/quiz/QuizList';
 import { QuizEditor } from './components/quiz/QuizEditor';
 import { QuizViewer } from './components/quiz/QuizViewer';
 import { Quiz, PublishSettings } from './types/quiz';
-import { fetchQuizzes } from './services/quizApi';
+import { fetchQuizzes, saveQuiz } from './services/quizApi';
 
 // Separate the main app logic from the router to use hooks
 function AppContent() {
@@ -47,22 +47,25 @@ function AppContent() {
     setQuizzes((prev) => prev.filter((quiz) => quiz.id !== quizId));
   };
 
-  const handleSave = (quiz: Quiz) => {
+  const handleSave = async (quiz: Quiz) => {
     console.log("Quiz recebido para salvar:", quiz);
-    if (quizzes.find(q => q.id === quiz.id)) {
-        //Atualiza o quiz existente e mantem seu publishStatus
-        setQuizzes((prev) =>
-        prev.map((q) => (q.id === quiz.id ? quiz : q))
-        );
-        console.log("Quiz atualizado:", quiz);
-    } else {
-      //Adiciona um novo quiz com o publishStatus 'draft' 
-      const newQuiz = { ...quiz, publishStatus: 'draft' };
-      setQuizzes((prev) => [...prev, newQuiz]);
-      console.log("Novo quiz adicionado:", newQuiz);
-    }
-    // Verifica o estado atualizado de quizzes
-    console.log("Estado final de quizzes:", quizzes);
+
+try {
+  await saveQuiz(quiz);
+  console.log("Quiz salvo via API!");
+
+  if (quizzes.find(q => q.id === quiz.id)) {
+    setQuizzes((prev) => prev.map((q) => (q.id === quiz.id ? quiz : q)));
+  } else {
+    const newQuiz = { ...quiz, publishStatus: 'draft' };
+    setQuizzes((prev) => [...prev, newQuiz]);
+  }
+
+  console.log("Estado final de quizzes:", quizzes);
+  navigate('/');
+} catch (error) {
+  console.error("Erro ao salvar quiz via API:", error);
+}
 
     // Navega para a pagina principal
     navigate('/');
