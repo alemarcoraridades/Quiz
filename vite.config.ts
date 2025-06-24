@@ -4,13 +4,13 @@ import path from 'path'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
-
+  console.log('env carregado:', env);
   return {
     plugins: [react()],
     base: '/',
     define: {
       'import.meta.env' : JSON.stringify(env)
-      },
+    },
     build: {
       outDir: 'docs'
     },
