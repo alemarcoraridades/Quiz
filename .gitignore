@@ -33,17 +33,7 @@ dist-ssr/
 .env.development
 .env.production
 
-# Build files
-*.css
-*.js
-*.html
-
 # Vite cache
 .vite/
-
-env
-env.development
-env.production
-node_modules/
 
 
