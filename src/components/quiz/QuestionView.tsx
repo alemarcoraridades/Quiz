@@ -89,7 +89,7 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
           disabled={isRequired && !isAnswered}
           rightIcon={<ChevronRight className="w-4 h-4" />}
         >
-          {isLastQuestion ? 'Acabou!' : 'Proxima'}
+          {isLastQuestion ? 'Resultado!' : 'Proxima'}
         </Button>
       </div>
     </div>

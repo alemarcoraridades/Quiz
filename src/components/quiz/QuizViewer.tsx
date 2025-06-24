@@ -25,7 +25,7 @@ export const QuizViewer: React.FC = () => {
   if (!id) {
     setError('ID do quiz não fornecido');
     setIsLoading(false);
-   // navigate('/quizzes');
+    navigate('/quizzes');
     return;
   }
 
@@ -46,7 +46,7 @@ export const QuizViewer: React.FC = () => {
   } catch (err) {
     console.error('Erro ao carregar quiz:', err);
     setError(err instanceof Error ? err.message : 'Falha ao carregar quiz');
-   // navigate('/quizzes');
+    navigate('/quizzes');
   } finally {
     setIsLoading(false);
   }
@@ -57,7 +57,7 @@ export const QuizViewer: React.FC = () => {
   }, [loadQuiz]);
 
   const handleNext = useCallback(() => {
-    if (currentQuestionIndex <= questions.length - 1) {
+    if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setShowResults(true);
@@ -71,7 +71,7 @@ export const QuizViewer: React.FC = () => {
     if (!currentQuestion) return;
 
     const answer = answers[currentQuestion.id];
-    if (answer !== undefined && currentQuestionIndex <= questions.length - 1) {
+    if (answer !== undefined && currentQuestionIndex < questions.length - 1) {
       const timer = setTimeout(handleNext, 500);
       return () => clearTimeout(timer);
     }
@@ -100,11 +100,11 @@ export const QuizViewer: React.FC = () => {
   if (error) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-       // <div className="text-center p-6 max-w-md">
-       //   <h2 className="text-xl font-bold text-red-600 mb-2">Erro</h2>
-       //   <p className="text-gray-600 mb-4">{error}</p>
-       //   <Button onClick={() => navigate('/quizzes')}>Voltar para Quizzes</Button>
-       // </div>
+        <div className="text-center p-6 max-w-md">
+          <h2 className="text-xl font-bold text-red-600 mb-2">Erro</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <Button onClick={() => navigate('/quizzes')}>Voltar para Quizzes</Button>
+        </div>
       </div>
     );
   }
@@ -172,11 +172,11 @@ export const QuizViewer: React.FC = () => {
         ) : (
           <>
             <div className="mb-8">
-             // <div className="flex justify-between items-center mb-6">
-             //   <Button variant="outline" onClick={() => navigate('/quizzes')}>
-             //     Finalizar Quiz
-             //   </Button>
-             // </div>
+              <div className="flex justify-between items-center mb-6">
+                <Button variant="outline" onClick={() => navigate('/quizzes')}>
+                  Finalizar Quiz
+                </Button>
+              </div>
 
               <QuizHeader
                 title={quiz.title}
