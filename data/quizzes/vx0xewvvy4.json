@@ -91,12 +91,21 @@
             "checkoutLink": "https://pay.kiwify.com.br/nOTnpIT",
             "finalmessage": "🛻 Parabéns! Você já tem o perfil ideal pra começar agora com o ebook “Carro Antigo: Realize Seu Sonho Agora”."
           }
+        },
+        {
+          "questionId": "3mpuevb4hlb",
+          "answer": "Quero comprar pra valorizar e vender depois",
+          "product": {
+            "imageUrl": "",
+            "checkoutLink": "https://pay.kiwify.com.br/JOVkoCR",
+            "finalmessage": "🎉 Parabéns! Seu perfil combina com o Kit Completo (Ebook + Audiobook). Assim você tem tudo pra começar com conteúdo escrito e também ouvir quando quiser. Ideal pra quem quer fazer acontecer de verdade."
+          }
         }
       ]
     }
   },
   "createdAt": "2025-06-24T13:43:34.106Z",
-  "updatedAt": "2025-06-24T17:41:40.440Z",
+  "updatedAt": "2025-06-24T17:43:21.066Z",
   "publishStatus": "published",
   "publishedAt": "2025-06-24T13:45:27.414Z"
 }
