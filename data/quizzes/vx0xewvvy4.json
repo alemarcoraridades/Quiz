@@ -63,9 +63,9 @@
     }
   ],
   "theme": {
-    "primaryColor": "#5986cf",
-    "backgroundColor": "#ded5e1",
-    "fontFamily": "Inter"
+    "primaryColor": "#2c3e50",
+    "backgroundColor": "#f5f5dc",
+    "fontFamily": "Open Sans"
   },
   "settings": {
     "showProgressBar": true,
@@ -87,7 +87,7 @@
     }
   },
   "createdAt": "2025-06-24T13:43:34.106Z",
-  "updatedAt": "2025-06-24T16:25:48.336Z",
+  "updatedAt": "2025-06-24T17:01:25.550Z",
   "publishStatus": "published",
   "publishedAt": "2025-06-24T13:45:27.414Z"
 }
