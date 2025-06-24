@@ -26,10 +26,10 @@ function AppContent() {
   }, []);
 
   // Atualiza localStorage toda vez que quizzes mudar
-  useEffect(() => {
-    localStorage.setItem("quizzes", JSON.stringify(quizzes));
-    console.log("Quizzes salvos no localStorage:", quizzes);
-  }, [quizzes]);
+//  useEffect(() => {
+//    localStorage.setItem("quizzes", JSON.stringify(quizzes));
+//    console.log("Quizzes salvos no localStorage:", quizzes);
+//  }, [quizzes]);
 
   const navigate = useNavigate();
 
