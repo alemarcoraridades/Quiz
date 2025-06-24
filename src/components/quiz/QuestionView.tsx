@@ -43,12 +43,12 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-gray-500">
-            Question {questionIndex + 1} of {totalQuestions}
+            Resposta {questionIndex + 1} of {totalQuestions}
           </span>
           {isRequired && touched && !isAnswered && (
             <span className="inline-flex items-center text-sm font-medium text-red-600">
               <AlertCircle className="w-4 h-4 mr-1" />
-              Required
+              Responda a pergunta!
             </span>
           )}
         </div>
@@ -73,7 +73,7 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
           variant="outline"
           leftIcon={<ChevronLeft className="w-4 h-4" />}
         >
-          Previous
+          Anterior
         </Button>
         <div className="text-sm text-gray-500">
           {isAnswered ? (
@@ -81,7 +81,7 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
           ) : isRequired ? (
             <span className="text-red-600">* Response required</span>
           ) : (
-            <span>Optional question</span>
+            <span>Resposta opcional</span>
           )}
         </div>
         <Button
@@ -89,7 +89,7 @@ export const QuestionView: React.FC<QuestionViewProps> = ({
           disabled={isRequired && !isAnswered}
           rightIcon={<ChevronRight className="w-4 h-4" />}
         >
-          {isLastQuestion ? 'Finish' : 'Next'}
+          {isLastQuestion ? 'Acabou!' : 'Proxima'}
         </Button>
       </div>
     </div>
