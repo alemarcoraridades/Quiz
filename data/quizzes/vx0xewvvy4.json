@@ -84,19 +84,19 @@
           }
         },
         {
-          "questionId": "",
-          "answer": "",
+          "questionId": "3mpuevb4hlb",
+          "answer": "Quero um carro antigo só pra passear de vez em quando",
           "product": {
             "imageUrl": "",
-            "checkoutLink": "",
-            "finalmessage": ""
+            "checkoutLink": "https://pay.kiwify.com.br/nOTnpIT",
+            "finalmessage": "🛻 Parabéns! Você já tem o perfil ideal pra começar agora com o ebook “Carro Antigo: Realize Seu Sonho Agora”."
           }
         }
       ]
     }
   },
   "createdAt": "2025-06-24T13:43:34.106Z",
-  "updatedAt": "2025-06-24T17:25:00.745Z",
+  "updatedAt": "2025-06-24T17:41:40.440Z",
   "publishStatus": "published",
   "publishedAt": "2025-06-24T13:45:27.414Z"
 }
