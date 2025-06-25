@@ -1,0 +1,80 @@
+{
+  "id": "yj2akat4x3n",
+  "title": "👉 Descubra Como Realizar o Sonho do Carro Antigo Perfeito!",
+  "description": "Responda essas perguntas rápidas e veja qual é o melhor caminho pra você realizar o sonho do seu carro antigo. É rápido, fácil e direto!",
+  "questions": [
+    {
+      "id": "t08am4def6f",
+      "type": "multiple-choice",
+      "title": "Você já tem ou já teve um carro antigo?",
+      "options": [
+        "Sim",
+        "Não, mas sempre quis",
+        "Nunca pensei nisso"
+      ],
+      "required": true
+    },
+    {
+      "id": "i4eiv9tj4wd",
+      "type": "multiple-choice",
+      "title": "Qual dessas opções mais combina com você?",
+      "options": [
+        "Quero um carro antigo só pra passear de vez em quando",
+        "Quero reformar e deixar do meu jeito",
+        "Quero comprar pra valorizar e vender depois"
+      ],
+      "required": true
+    },
+    {
+      "id": "dwyh6hjxrnh",
+      "type": "multiple-choice",
+      "title": "Você já sabe onde encontrar carros antigos à venda?",
+      "options": [
+        "Sim, conheço alguns lugares",
+        "Não faço ideia",
+        "Já dei uma olhada na internet"
+      ],
+      "required": true
+    },
+    {
+      "id": "9208cjqjwwe",
+      "type": "multiple-choice",
+      "title": "Quanto você estaria disposto a investir no seu carro antigo dos sonhos?",
+      "options": [
+        "Até R$ 10.000",
+        "De R$ 10.000 a R$ 20.000",
+        "Mais de R$ 20.000"
+      ],
+      "required": true
+    },
+    {
+      "id": "38x7mkw42tn",
+      "type": "multiple-choice",
+      "title": "Se você pudesse escolher, qual dessas marcas te agrada mais?",
+      "options": [
+        "Volkswagen",
+        "Chevrolet",
+        "Ford",
+        "Fiat",
+        "Outra"
+      ],
+      "required": true
+    }
+  ],
+  "theme": {
+    "primaryColor": "#3B82F6",
+    "backgroundColor": "#FFFFFF",
+    "fontFamily": "Inter"
+  },
+  "settings": {
+    "showProgressBar": true,
+    "allowSkip": false,
+    "shuffleQuestions": false,
+    "finalResultScreen": {
+      "message": "",
+      "productMapping": []
+    }
+  },
+  "createdAt": "2025-06-25T17:52:35.413Z",
+  "updatedAt": "2025-06-25T18:02:50.907Z"
+}
