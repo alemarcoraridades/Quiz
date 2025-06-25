@@ -72,9 +72,20 @@
     "shuffleQuestions": false,
     "finalResultScreen": {
       "message": "",
-      "productMapping": []
+      "productMapping": [
+        {
+          "questionId": "i4eiv9tj4wd",
+          "answer": "Quero um carro antigo só pra passear de vez em quando",
+          "product": {
+            "imageUrl": "",
+            "checkoutLink": "https://pay.kiwify.com.br/klzhB5N",
+            "finalmessage": "🔊 Parabéns! O melhor pra você é o Audiobook “Carro Antigo: Realize Seu Sonho Agora”. Lançamento 65% de Desconto!"
+          }
+        }
+      ]
     }
   },
   "createdAt": "2025-06-25T17:52:35.413Z",
-  "updatedAt": "2025-06-25T18:02:50.907Z"
+  "updatedAt": "2025-06-25T18:09:24.924Z",
+  "publishStatus": "draft"
 }
