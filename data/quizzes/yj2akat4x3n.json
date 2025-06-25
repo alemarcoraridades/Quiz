@@ -81,11 +81,20 @@
             "checkoutLink": "https://pay.kiwify.com.br/klzhB5N",
             "finalmessage": "🔊 Parabéns! O melhor pra você é o Audiobook “Carro Antigo: Realize Seu Sonho Agora”. Lançamento 65% de Desconto!"
           }
+        },
+        {
+          "questionId": "i4eiv9tj4wd",
+          "answer": "Quero reformar e deixar do meu jeito",
+          "product": {
+            "imageUrl": "",
+            "checkoutLink": "https://pay.kiwify.com.br/nOTnpIT",
+            "finalmessage": "🛻 Parabéns! Você já tem o perfil ideal pra começar agora com o ebook “Carro Antigo: Realize Seu Sonho Agora”. Lançamento 65% de Desconto!"
+          }
         }
       ]
     }
   },
   "createdAt": "2025-06-25T17:52:35.413Z",
-  "updatedAt": "2025-06-25T18:12:43.809Z",
+  "updatedAt": "2025-06-25T18:17:27.347Z",
   "publishStatus": "draft"
 }
