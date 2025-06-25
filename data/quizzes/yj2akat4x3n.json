@@ -62,9 +62,9 @@
     }
   ],
   "theme": {
-    "primaryColor": "#3B82F6",
-    "backgroundColor": "#FFFFFF",
-    "fontFamily": "Inter"
+    "primaryColor": "#2c3e50",
+    "backgroundColor": "#f5f5dc",
+    "fontFamily": "Open Sans"
   },
   "settings": {
     "showProgressBar": true,
