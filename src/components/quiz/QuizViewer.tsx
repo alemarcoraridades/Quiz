@@ -131,16 +131,6 @@ export const QuizViewer: React.FC = () => {
         {showResults ? (
           <div className="space-y-8 fade-in">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 mb-4">
-                <span className="text-3xl font-bold text-blue-600">
-                  {Math.round(
-                    (questions.filter((q) => answers[q.id] !== undefined).length /
-                      questions.length) *
-                      100
-                  )}
-                  %
-                </span>
-              </div>
               <h2 className="text-2xl font-bold mb-2">Quiz Finalizado!</h2>
             </div>
 
@@ -172,12 +162,6 @@ export const QuizViewer: React.FC = () => {
         ) : (
           <>
             <div className="mb-8">
-              <div className="flex justify-between items-center mb-6">
-                <Button variant="outline" onClick={() => navigate('/quizzes')}>
-                  Finalizar Quiz
-                </Button>
-              </div>
-
               <QuizHeader
                 title={quiz.title}
                 description={quiz.description}
